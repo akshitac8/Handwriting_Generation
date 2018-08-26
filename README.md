@@ -5,6 +5,7 @@
 python train.py 
 
 ```
+## Output
 
 # Conditional Generation
 
@@ -12,9 +13,13 @@ python train.py
 python conv_train.py
 
 ```
+## Output
+
 # Text Recognition
 
 ```
 python recog_train.py
 
 ```
+## Output
+
