@@ -2,10 +2,8 @@ import torch
 import numpy as np
 from tqdm import tqdm
 from collections import defaultdict,namedtuple
-import handwriting.models as m
-import handwriting.training_utils as t_units
-#from . import log as logs
-import handwriting.inference_utils as i_utils
+import src.models as m
+import src.inference_utils as i_utils
 from utils import visualization_utils as v_utils
 import torch.nn as nn
 import torch.nn.functional as F
