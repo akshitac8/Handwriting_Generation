@@ -3,9 +3,9 @@ import torch.nn as nn
 import numpy as np
 from tqdm import tqdm
 from collections import defaultdict
-import handwriting.models as m
+import src.models as m
 import torch.nn.functional as F
-import handwriting.inference_utils as i_utils
+import src.inference_utils as i_utils
 from utils import visualization_utils as v_utils
 import configurations
 print('Imported')
