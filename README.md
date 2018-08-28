@@ -31,11 +31,11 @@ python recog_train.py
 * [Python 2.7 or 3.5+](https://www.continuum.io/downloads)
 * [PyTorch 0.4.0](http://pytorch.org/)
 
-### Feedback
+# Feedback
 
 All kinds of feedback (code style, bugs, comments etc.) is welcome. Please open an [Issue](https://github.com/channelCS/Summaries/issues) on this Repository.
 
-### Contribution Guidelines
+# Contribution Guidelines
 
 If you are familiar with basics of contributing to github repositories, feel free to skip this section. For total beginners who landed up here, before contributing, take a look at the [blog-post](https://channelcs.github.io/best-practices-in-a-collaborative-environment.html) to get started.
 
