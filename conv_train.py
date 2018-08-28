@@ -69,9 +69,9 @@ def process_text_data(conf, texts):
 
 def load_data(conf, data_path="data", validate=False):
     # Load the array of strokes
-    raw_strokes = np.load('/home/aditya/version-control/workspace/Handwriting-Generation-Using-Recurrent-Neural-Networks/data/strokes.npy' , encoding="latin1")
+    raw_strokes = np.load('/home/akshita/version-control/workspace/Handwriting-Generation-Using-Recurrent-Neural-Networks/data/strokes.npy' , encoding="latin1")
     # Load the list of sentences
-    with open('/home/aditya/version-control/workspace/Handwriting-Generation-Using-Recurrent-Neural-Networks/data/sentences.txt' ) as f:
+    with open('/home/akshita/version-control/workspace/Handwriting-Generation-Using-Recurrent-Neural-Networks/data/sentences.txt' ) as f:
         raw_texts = f.readlines()
 
     # We will compute the mean ratio len_stroke / len_onehot
