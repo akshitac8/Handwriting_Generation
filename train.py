@@ -12,8 +12,8 @@ print('Imported')
 
 def load_data(conf, data_path="data", validate=False):
 
-    raw_strokes = np.load('/home/aditya/version-control/workspace/Handwriting-Generation-Using-Recurrent-Neural-Networks/data/strokes.npy' , encoding="latin1")
-    with open('/home/aditya/version-control/workspace/Handwriting-Generation-Using-Recurrent-Neural-Networks/data/sentences.txt' ) as f:
+    raw_strokes = np.load('/home/akshita/version-control/workspace/Handwriting-Generation-Using-Recurrent-Neural-Networks/data/strokes.npy' , encoding="latin1")
+    with open('/home/akshita/version-control/workspace/Handwriting-Generation-Using-Recurrent-Neural-Networks/data/sentences.txt' ) as f:
         raw_texts = f.readlines()
 
     stroke_counter, text_counter = 0, 0
