@@ -1,5 +1,7 @@
 (I am currently uploading the code for the project)
 
+# Handwriting Generation and Recognition using Recurrent Neural Network
+
 # Unconditional Generation
 
 ```
