@@ -2,7 +2,7 @@ import numpy
 import os
 import torch
 import sys
-sys.path.append('/home/aditya/version-control/workspace/Handwriting-Generation-Using-Recurrent-Neural-Networks')
+sys.path.append('/home/akshita/version-control/workspace/Handwriting-Generation-Using-Recurrent-Neural-Networks')
 from handwriting import log as logs
 from utils import visualization_utils as v_utils
 from handwriting import inference_utils as i_utils
@@ -79,9 +79,9 @@ def process_text_data(conf, texts):
 
 def load_data(conf, data_path="data"):
     # Load the array of strokes
-    raw_strokes = np.load('/home/aditya/version-control/workspace/Handwriting-Generation-Using-Recurrent-Neural-Networks/data/strokes.npy' , encoding="latin1")
+    raw_strokes = np.load('/home/akshita/version-control/workspace/Handwriting-Generation-Using-Recurrent-Neural-Networks/data/strokes.npy' , encoding="latin1")
     # Load the list of sentences
-    with open('/home/aditya/version-control/workspace/Handwriting-Generation-Using-Recurrent-Neural-Networks/data/sentences.txt' ) as f:
+    with open('/home/akshita/version-control/workspace/Handwriting-Generation-Using-Recurrent-Neural-Networks/data/sentences.txt' ) as f:
         raw_texts = f.readlines()
 
     # We will compute the mean ratio len_stroke / len_onehot
@@ -116,8 +116,8 @@ def load_data(conf, data_path="data"):
 
 def load_uncond_data(conf, data_path="data"):
 
-    raw_strokes = np.load('/home/aditya/version-control/workspace/Handwriting-Generation-Using-Recurrent-Neural-Networks/data/strokes.npy' , encoding="latin1")
-    with open('/home/aditya/version-control/workspace/Handwriting-Generation-Using-Recurrent-Neural-Networks/data/sentences.txt' ) as f:
+    raw_strokes = np.load('/home/akshita/version-control/workspace/Handwriting-Generation-Using-Recurrent-Neural-Networks/data/strokes.npy' , encoding="latin1")
+    with open('/home/akshita/version-control/workspace/Handwriting-Generation-Using-Recurrent-Neural-Networks/data/sentences.txt' ) as f:
         raw_texts = f.readlines()
 
     stroke_counter, text_counter = 0, 0
@@ -146,11 +146,11 @@ def generate_unconditionally():
 
     load_uncond_data(settings)
 
-    if not os.path.isfile("/home/aditya/version-control/workspace/Handwriting-Generation-Using-Recurrent-Neural-Networks/models/unconditional.pt"):
+    if not os.path.isfile("/home/akshita/version-control/workspace/Handwriting-Generation-Using-Recurrent-Neural-Networks/models/unconditional.pt"):
         logs.print_red("Unconditional model does not exist.")
 
     # Load model
-    model = torch.load("/home/aditya/version-control/workspace/Handwriting-Generation-Using-Recurrent-Neural-Networks/models/unconditional.pt")
+    model = torch.load("/home/akshita/version-control/workspace/Handwriting-Generation-Using-Recurrent-Neural-Networks/models/unconditional.pt")
     
     print("model loaded")
     # Sample a sequence to follow progress and save the plot
@@ -170,11 +170,11 @@ def generate_conditionally(text="welcome to lyrebird"):
 
     load_data(settings)
 
-    if not os.path.isfile("/home/aditya/version-control/workspace/Handwriting-Generation-Using-Recurrent-Neural-Networks/models/conditional.pt"):
+    if not os.path.isfile("/home/akshita/version-control/workspace/Handwriting-Generation-Using-Recurrent-Neural-Networks/models/conditional.pt"):
         logs.print_red("Conditional model does not exist.")
 
     # Load model
-    model = torch.load("/home/aditya/version-control/workspace/Handwriting-Generation-Using-Recurrent-Neural-Networks/models/conditional.pt")
+    model = torch.load("/home/akshita/version-control/workspace/Handwriting-Generation-Using-Recurrent-Neural-Networks/models/conditional.pt")
     print("loaded")
     input_text = "welcome to lyrebird"
     #print(settings)
