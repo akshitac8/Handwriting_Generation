@@ -189,7 +189,13 @@ def recognize_stroke(stroke):
 
     # Output:
     #   text - str
-    return 'welcome to lyrebird'
+    if not os.path.isfile("/home/akshita/version-control/workspace/Handwriting-Generation-Using-Recurrent-Neural-Networks/models/recognition.pt"):
+        logs.print_red(" model does not exist.")
+
+    # Load model
+    model = torch.load("/home/akshita/version-control/workspace/Handwriting-Generation-Using-Recurrent-Neural-Networks/models/recognition.pt")
+    
+    return text
 
 
 stroke = generate_unconditionally()
