@@ -9,6 +9,7 @@ python train.py
 
 ```
 ## Output
+![](https://github.com/akshitac8/Handwriting_Generation/blob/master/Output/Figure_1.png)
 
 # Conditional Generation
 
@@ -40,4 +41,4 @@ All kinds of feedback (code style, bugs, comments etc.) is welcome. Please open 
 If you are familiar with basics of contributing to github repositories, feel free to skip this section. For total beginners who landed up here, before contributing, take a look at the [blog-post](https://channelcs.github.io/best-practices-in-a-collaborative-environment.html) to get started.
 
 
-The output of each task can vary depending on the time you train your architecture.
+**The output of each task can vary depending on the time you train your architecture.**
