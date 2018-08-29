@@ -30,7 +30,7 @@ python recog_train.py
 # Dependencies
 
 * [Python 2.7 or 3.5+](https://www.continuum.io/downloads)
-* [PyTorch 0.4.0](http://pytorch.org/)
+* [PyTorch 0.4.0](http://pytorch.org/) or greater
 
 # Feedback
 
