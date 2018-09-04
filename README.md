@@ -34,7 +34,7 @@ python recog_train.py
 
 # Feedback
 
-All kinds of feedback (code style, bugs, comments etc.) is welcome. Please open an [Issue](https://github.com/channelCS/Summaries/issues) on this Repository.
+All kinds of feedback (code style, bugs, comments etc.) is welcome. Please open an [Issue](https://github.com/akshitac8/Handwriting_Generation/issues) on this Repository.
 
 # Contribution Guidelines
 
