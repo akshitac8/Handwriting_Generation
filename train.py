@@ -169,10 +169,6 @@ for epoch in tqdm(range(conf.nb_epoch), desc="Training"):
         d_epoch_monitor["nll"].append(d_loss["nll"])
         d_epoch_monitor["total"].append(d_loss["total"])
 
-    # Sample a sequence to follow progress and save the plot
-    #plot_data = i_utils.sample_unconditional_sequence(conf, model)
-    #v_utils.plot_stroke(plot_data.stroke, "Plots/unconditional_training/epoch_%s.png" % epoch)
-
     # Update d_monitor with the mean over an epoch
     #for key in d_epoch_monitor.keys():
     #    d_monitor[key].append(np.mean(d_epoch_monitor[key]))

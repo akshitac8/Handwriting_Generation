@@ -26,7 +26,7 @@ def get_args():
     parser.add_argument('--gradient_clipping', default=5, type=float, help="Max norm allowed for a gradient")
 
     # Training parameters
-    parser.add_argument('--nb_epoch', default=5, type=int, help="Number of batches per epoch")
+    parser.add_argument('--nb_epoch', default=10, type=int, help="Number of batches per epoch")
     parser.add_argument('--batch_size', default=32, type=int, help='Batch size')
     parser.add_argument('--n_batch_per_epoch', type=int, default=100, help='Number of batches per epoch')
     parser.add_argument('--bptt', type=int, default=150, help='sequence length')

@@ -69,9 +69,9 @@ def process_text_data(conf, texts):
 
 def load_data(conf, data_path="data", validate=False):
     # Load the array of strokes
-    raw_strokes = np.load('/home/akshita/version-control/workspace/Handwriting-Generation-Using-Recurrent-Neural-Networks/data/strokes.npy' , encoding="latin1")
+    raw_strokes = np.load('/Users/agupta/version-control/pytorch/Handwriting_Generation/data/strokes.npy' , encoding="latin1")
     # Load the list of sentences
-    with open('/home/akshita/version-control/workspace/Handwriting-Generation-Using-Recurrent-Neural-Networks/data/sentences.txt' ) as f:
+    with open('/Users/agupta/version-control/pytorch/Handwriting_Generation/data/sentences.txt' ) as f:
         raw_texts = f.readlines()
 
     # We will compute the mean ratio len_stroke / len_onehot
@@ -174,13 +174,13 @@ def train_step(conf, model, X_var, Y_var, optimizer, onehot=None):
     optimizer.zero_grad()
 
     # Initialize hidden
-    print('X_var',X_var.size())
+    #print('X_var',X_var.size())
     hidden = model.initHidden(X_var.size(0))
     #print("hidden",hidden.size())
     # Forward pass
     #mdnparams, e_logit, _ = model(X_var, hidden, onehot=onehot)
     mu1, mu2, sigma1, sigma2, rho, pi_mixprob, e_logit, hidden = model(X_var, hidden, onehot=onehot)
-
+    e_logit[torch.isnan(e_logit)] = 0
     # Flatten target
     target = Y_var.view(-1, 3).contiguous()
     # Extract eos, X1, X2
@@ -189,7 +189,9 @@ def train_step(conf, model, X_var, Y_var, optimizer, onehot=None):
     # Compute nll loss for next stroke 2D prediction
     nll = gaussian_2Dnll(X1, X2, mu1, mu2, sigma1, sigma2, rho, pi_mixprob)
     # Compute binary classification loss for end of sequence tag
-    loss_bce = nn.BCEWithLogitsLoss(size_average=True)(eos, e_logit)
+    #print(eos,"eos")
+    #print(e_logit,"e_logit")
+    loss_bce = nn.BCEWithLogitsLoss(size_average=False)(eos, e_logit)
 
     # Sum the losses
     total_loss = (nll + loss_bce)
@@ -199,9 +201,9 @@ def train_step(conf, model, X_var, Y_var, optimizer, onehot=None):
               "total": total_loss.data.cpu().numpy()}
 
     # Backward pass
-    total_loss.backward(retain_graph=True)
+    total_loss.backward()
     # Gradient clipping
-    torch.nn.utils.clip_grad_norm(model.parameters(), 10)
+    torch.nn.utils.clip_grad_norm_(model.parameters(), 10)
     optimizer.step()
     #hidden.detach()
 
@@ -233,7 +235,7 @@ def gaussian_2Dnll(X1, X2, mu1, mu2, sigma1, sigma2, rho, pi_mixprob):
     Z = compute_Z(X1, X2, mu1, mu2, sigma1, sigma2, rho)
 
     # Rewrite likelihood part of Eq. 26 as logsumexp for stability
-    pi_term = F.log_softmax(pi_mixprob)
+    pi_term = F.log_softmax(pi_mixprob, dim=1)
     Z_term = -0.5 * Z / (1 - torch.pow(rho, 2))
     sigma_term = - torch.log(2 * float(np.pi) * sigma1.exp() * sigma2.exp() * torch.sqrt(1 - torch.pow(rho, 2)))
 
@@ -250,9 +252,9 @@ data0,data1,data3 = load_data(conf)
 
 # Model specifications
 input_size = data0[0].shape[1]
-print ("Input Size : ",input_size)
+#print ("Input Size : ",input_size)
 onehot_dim = data3[0].shape[-1]
-print ("Onehot dimensions : ",onehot_dim)
+#print ("Onehot dimensions : ",onehot_dim)
 #output_size = 3 * conf.n_gaussian + 1
 #print ("Output Size : ",output_size)
 model = m.CondHandRNN(input_size, onehot_dim=onehot_dim)
@@ -262,7 +264,6 @@ loss = ""
 d_monitor = defaultdict(list)
 
 # ***************** Training *************************
-print("training")
 for epoch in tqdm(range(conf.nb_epoch), desc="Training"):
 
     # Track the training losses over an epoch
@@ -290,13 +291,8 @@ for epoch in tqdm(range(conf.nb_epoch), desc="Training"):
     # Prepare loss to update progress bar
     loss = "Total : %.3g  " % (d_monitor["total"][-1])
 
-    plot_data = i_utils.sample_fixed_sequence(conf, model)
-    v_utils.plot_stroke(plot_data.stroke, "Plots/conditional_training/epoch_%s.png" % epoch)
-
     # Move model to cpu before training to allow inference on cpu
     if epoch % 5 == 0:
-
-
         # Move model to cpu before training to allow inference on cpu
         model.cpu()
         torch.save(model, conf.conditional_model_path)

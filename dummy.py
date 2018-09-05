@@ -1,7 +1,7 @@
 import os
 import torch
 import sys
-sys.path.append('/home/akshita/version-control/workspace/Handwriting-Generation-Using-Recurrent-Neural-Networks')
+sys.path.append('/Users/agupta/version-control/pytorch/Handwriting_Generation')
 import numpy as np
 from tqdm import tqdm
 from collections import defaultdict,namedtuple
@@ -73,9 +73,9 @@ def process_text_data(conf, texts):
 
 def load_data(conf, data_path="data"):
     # Load the array of strokes
-    raw_strokes = np.load('/home/akshita/version-control/workspace/Handwriting-Generation-Using-Recurrent-Neural-Networks/data/strokes.npy' , encoding="latin1")
+    raw_strokes = np.load('/Users/agupta/version-control/pytorch/Handwriting_Generation/data/strokes.npy' , encoding="latin1")
     # Load the list of sentences
-    with open('/home/akshita/version-control/workspace/Handwriting-Generation-Using-Recurrent-Neural-Networks/data/sentences.txt' ) as f:
+    with open('/Users/agupta/version-control/pytorch/Handwriting_Generation/data/sentences.txt' ) as f:
         raw_texts = f.readlines()
 
     # We will compute the mean ratio len_stroke / len_onehot
@@ -110,8 +110,8 @@ def load_data(conf, data_path="data"):
 
 def load_uncond_data(conf, data_path="data"):
 
-    raw_strokes = np.load('/home/akshita/version-control/workspace/Handwriting-Generation-Using-Recurrent-Neural-Networks/data/strokes.npy' , encoding="latin1")
-    with open('/home/akshita/version-control/workspace/Handwriting-Generation-Using-Recurrent-Neural-Networks/data/sentences.txt' ) as f:
+    raw_strokes = np.load('/Users/agupta/version-control/pytorch/Handwriting_Generation/data/strokes.npy' , encoding="latin1")
+    with open('/Users/agupta/version-control/pytorch/Handwriting_Generation/data/sentences.txt' ) as f:
         raw_texts = f.readlines()
 
     stroke_counter, text_counter = 0, 0
@@ -140,11 +140,11 @@ def generate_unconditionally():
 
     load_uncond_data(settings)
 
-    if not os.path.isfile("/home/aditya/version-control/workspace/Handwriting-Generation-Using-Recurrent-Neural-Networks/models/unconditional.pt"):
+    if not os.path.isfile("/Users/agupta/version-control/pytorch/Handwriting_Generation/models/unconditional.pt"):
         print("Unconditional model does not exist.")
 
     # Load model
-    model = torch.load("/home/aditya/version-control/workspace/Handwriting-Generation-Using-Recurrent-Neural-Networks/models/unconditional.pt")
+    model = torch.load("/Users/agupta/version-control/pytorch/Handwriting_Generation/models/unconditional.pt")
     
     print("model loaded")
     # Sample a sequence to follow progress and save the plot
@@ -153,7 +153,7 @@ def generate_unconditionally():
     return plot_data
 
 
-def generate_conditionally(text="welcome to lyrebird"):
+def generate_conditionally(text="an input string"):
     # Input:
     #   text - str
     #   random_seed - integer
@@ -164,13 +164,13 @@ def generate_conditionally(text="welcome to lyrebird"):
 
     load_data(settings)
 
-    if not os.path.isfile("/home/aditya/version-control/workspace/Handwriting-Generation-Using-Recurrent-Neural-Networks/models/conditional.pt"):
+    if not os.path.isfile("/Users/agupta/version-control/pytorch/Handwriting_Generation/models/conditional.pt"):
         print("Conditional model does not exist.")
 
     # Load model
-    model = torch.load("/home/aditya/version-control/workspace/Handwriting-Generation-Using-Recurrent-Neural-Networks/models/conditional.pt")
+    model = torch.load("/Users/agupta/version-control/pytorch/Handwriting_Generation/models/conditional.pt")
     print("loaded")
-    input_text = "welcome to lyrebird"
+    input_text = "an input string"
     #print(settings)
     plot_data = i_utils.sample_fixed_sequence(settings, model, truth_text=input_text)
 
@@ -186,8 +186,8 @@ def recognize_stroke(stroke):
     return 'welcome to lyrebird'
 
 
-stroke = generate_unconditionally()
-v_utils.plot_stroke(stroke)
+#stroke = generate_unconditionally()
+#v_utils.plot_stroke(stroke)
 
-#stroke1 =generate_conditionally()
-#v_utils.plot_stroke(stroke1)
+stroke1 =generate_conditionally()
+v_utils.plot_stroke(stroke1)
