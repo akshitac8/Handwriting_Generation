@@ -5,9 +5,11 @@ from matplotlib import pyplot
 def plot_stroke(stroke, save_name=None):
     # Plot a single example.
     f, ax = pyplot.subplots()
-
+    #stroke = list(stroke)
     x = numpy.cumsum(stroke[:, 1])
     y = numpy.cumsum(stroke[:, 2])
+    print(x.shape)
+    print(y.shape)
 
     size_x = x.max() - x.min() + 1.
     size_y = y.max() - y.min() + 1.

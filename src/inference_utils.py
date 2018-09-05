@@ -1,6 +1,5 @@
 import numpy as np
 import torch
-import torch.nn.functional as F
 from torch.autograd import Variable
 
 def getuncond_sequence(conf, model):
@@ -68,7 +67,7 @@ def sample_fixed_sequence(conf, model, truth_text="Welcome to lyrebird"):
     for i in range(conf.sampling_len):
 
         # Set training flag to false to indicate we are doing inference.
-        mu1, mu2, log_sigma1, log_sigma2, rho,pi_logit,  e_logit, hidden = model(sample, hidden, onehot, training=False, running_kappa=running_kappa)
+        mu1, mu2, log_sigma1, log_sigma2, rho, pi_logit, e_logit, hidden = model(sample, hidden, onehot, training=False, running_kappa=running_kappa)
 
         # End condition when mean of densityian window is longer than the len of the one hot sequence
         mean_kappa = running_kappa.squeeze().mean().data.cpu().numpy()
@@ -81,7 +80,7 @@ def sample_fixed_sequence(conf, model, truth_text="Welcome to lyrebird"):
     
         # Get the tensors related to the attention window for plotting
         window = model.window.data.cpu().numpy()
-        phi = model.phi.data.cpu().numpy()[0]
+        phi = model.phi.data.cpu().numpy()
         kappa = model.new_kappa.data.cpu().numpy()
 
         # Updata sample and kappa
@@ -107,14 +106,16 @@ def sample_fixed_sequence(conf, model, truth_text="Welcome to lyrebird"):
 
 def stroke_sampling(conf, mu1, mu2, log_sigma1, log_sigma2, rho, pi_logit, e_logit=None):
     
-    print (pi_logit, " : pi_logit")
+    #print (pi_logit, " : pi_logit")
+    pi_logit[torch.isnan(pi_logit)] = 0
+    #print (pi_logit, " : pi_logit")
     a=torch.from_numpy(np.array(pi_logit.size(0) * (1.0 + conf.bias)))
-    print(a.type())
-    g_m = F.softmax(a, dim=0)
+    #print(a.type())
+    g_m = torch.softmax(a, dim=0)
     # To sample from mixture of gaussian, sample a component with bernoulli and weight pi
-    print("Done")
+    #print("Done")
     idx = torch.multinomial(g_m, 1)
-    print (idx , " : idx")
+    #print (idx , " : idx")
     idx=idx.view(-1,1)
     #print(mu1.size())
     # Select the gaussian parameters corresponding to idxs
@@ -134,20 +135,22 @@ def stroke_sampling(conf, mu1, mu2, log_sigma1, log_sigma2, rho, pi_logit, e_log
     x2 = sigma2 * (rho * eps1 + torch.sqrt(1 - rho * rho) * eps2) + mu2
 
     # Move MDN params to cpu for use in plotting
-    mu1 = mu1.data.cpu().numpy()[0]
-    mu2 = mu2.data.cpu().numpy()[0]
-    sigma1 = sigma1.data.cpu().numpy()[0]
-    sigma2 = sigma2.data.cpu().numpy()[0]
-    rho = rho.data.cpu().numpy()[0]
+    mu1 = mu1.data.cpu().numpy()
+    mu2 = mu2.data.cpu().numpy()
+    sigma1 = sigma1.data.cpu().numpy()
+    sigma2 = sigma2.data.cpu().numpy()
+    rho = rho.data.cpu().numpy()
 
     if e_logit is None:
 
         return x1, x2, mu1, mu2, sigma1, sigma2, rho
 
     else:
-        print(e_logit.type())
+        #print(e_logit.type())
         #e_logit = e_logit.var.detach().numpy()
-        s_m=F.sigmoid(e_logit)
-        print(s_m.type())
+        s_m=torch.sigmoid(e_logit)
+        #print(s_m)
+        s_m[torch.isnan(s_m)] = 0
         eos = torch.bernoulli(s_m)
+        #print(eos,"eos")
         return x1, x2, eos, mu1, mu2, sigma1, sigma2, rho
