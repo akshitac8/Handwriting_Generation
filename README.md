@@ -16,6 +16,8 @@ python conv_train.py
 
 ```
 ## Output
+![](https://github.com/akshitac8/Handwriting_Generation/blob/master/Output/Figure_2.png)
+
 
 # Text Recognition
 
